@@ -13,8 +13,8 @@ Route::group([
     'controller' => CategoryController::class,
 ], static function () {
     Route::get('/', 'index');
-    Route::get('/{categories}', 'show');
+    Route::get('/{category}', 'show');
     Route::post('/', 'store');
-    Route::patch('/{categories}', 'update');
-    Route::delete('/{categories}', 'delete');
+    Route::patch('/{category}', 'update');
+    Route::delete('/{category}', 'delete');
 });
