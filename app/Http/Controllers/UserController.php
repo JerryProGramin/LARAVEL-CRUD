@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         $users = User::all();
-        return new JsonResponse($users);
+        return new JsonResponse(UserResource::collection($users));
     }
 
     public function show(User $user): JsonResponse

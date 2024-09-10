@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Http\Resources\CategoryResource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class CategoryController extends Controller
     public function index(): JsonResponse
     {
         $categories = Category::all();
-        return new JsonResponse($categories);
+        return new JsonResponse(CategoryResource::collection($categories));
     }
 
     public function show(Category $category): JsonResponse
