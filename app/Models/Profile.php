@@ -17,10 +17,17 @@ class Profile extends Model
         'last_name',
         'name_user',
         'dni', 
+        'role_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    
 }

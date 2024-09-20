@@ -13,12 +13,12 @@ class ProfileController extends Controller
 {
     public function index(): JsonResponse
     {
-        $profiles = Profile::with('user')->get();
+        $profiles = Profile::with(['user', 'role'])->get();
         return new JsonResponse(ProfileResource::collection($profiles));
     }
     public function show(Profile $profile): JsonResponse
     {
-        $profile = Profile::with('user')->findOrFail($profile->id);
+        $profile = Profile::with(['user', 'role'])->findOrFail($profile->id);
         return response()->json(new ProfileResource($profile));
     }
 

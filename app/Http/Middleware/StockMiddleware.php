@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProductMiddleware
+class StockMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,12 +18,8 @@ class ProductMiddleware
     {
         $productId = $request->route('product.id');
         $product = Product::find($productId);
-        if (!$product) {
-            return response()->json(['error' => 'Producto no encontrado.'], 404);
-        }
-        if ($product->stock == 0) {
-            return response()->json(['error' => 'No hay stock del producto.'], 400);
-        }
+        if (!$product) return response()->json(['error' => 'Producto no encontrado.'], 404);
+        if ($product->stock == 0) return response()->json(['error' => 'Producto sin stock disponible'], 400);
         return $next($request);
     }
 }
