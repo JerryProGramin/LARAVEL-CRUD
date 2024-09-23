@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
-            $table->integer('quantity');
-            $table->datetime('last_updated');
+            $table->integer('stock');
             $table->timestamps();
             $table->softDeletes();
         });

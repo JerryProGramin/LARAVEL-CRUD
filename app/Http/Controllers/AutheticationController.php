@@ -26,7 +26,7 @@ class AutheticationController extends Controller
             throw new Exception('Invalid password', 401);
         }
 
-        $expiration = time() + 300; 
+        $expiration = time() + 3600; 
 
         $payload = [
             'sub' => $user->id,

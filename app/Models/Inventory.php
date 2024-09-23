@@ -13,8 +13,7 @@ class Inventory extends Model
 
     protected $fillable = [
         'product_id',
-        'quantity',
-        'last_updated',
+        'stock',
     ];
 
     public function product()

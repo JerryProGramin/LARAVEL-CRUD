@@ -28,5 +28,15 @@ class Order extends Model
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+
+    // public function orderProduct()
+    // {
+    //     return $this->hasMany(OrderProduct::class);
+    // }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_products')->withPivot('price_unit', 'quantity', 'subtotal');
+    }
 }
 

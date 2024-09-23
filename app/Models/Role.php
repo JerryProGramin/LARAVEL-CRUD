@@ -15,4 +15,8 @@ class Role extends Model
         'name',
         'description'
     ];
+    public function profile()
+    {
+        return $this->HasOne(Profile::class);
+    }
 }

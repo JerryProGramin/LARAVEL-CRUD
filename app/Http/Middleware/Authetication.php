@@ -23,16 +23,19 @@ class Authetication
         $token = $request->header('Authorization');
 
         if (!$token) {
-            return response()->json(['message' => 'Token not provided'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => 'Token not provided']);
         }
-
+        
         $decoded = JWT::decode($token, new Key(config('services.JWT.key'), 'HS256'));
         $user = User::find($decoded->sub);
-        if (!$user)
+
+        if (!$user) {
             throw new Exception('Invalid Credentials', 401);
+        }
 
         Auth::login($user);
-        
+
         return $next($request);
     }
+    
 }

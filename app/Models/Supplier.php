@@ -19,4 +19,9 @@ class Supplier extends Model
         'address',
         'country',
     ];
+
+    public function product()
+    {
+        return $this->HasOne(Product::class);
+    }
 }

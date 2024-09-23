@@ -16,7 +16,6 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'stock',
         'supplier_id',
         'category_id',
     ];
@@ -29,6 +28,21 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // public function orderProduct()
+    // {
+    //     return $this->hasMany(OrderProduct::class);
+    // }
+
+    public function inventory()
+    {
+        return $this->HasOne(Inventory::class);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_products')->withPivot('price_unit', 'quantity', 'subtotal');
     }
 }
 
