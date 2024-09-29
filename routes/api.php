@@ -14,6 +14,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authetication;
 use App\Http\Middleware\CheckRole;
+use Src\User\Infrastructure\Controller\UserController as SrcUserController;
 //use App\Http\Middleware\StockMiddleware;
 
 Route::post('login', [AutheticationController::class, 'login'])->withoutMiddleware(Authetication::class);
@@ -22,7 +23,6 @@ Route::middleware([Authetication::class, CheckRole::class . ':' . RoleEnum::CLIE
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/{id}', [ProductController::class, 'show']);
     Route::post('/orders', [OrderController::class, 'store']);
-    Route::get('/inventories', [InventaryController::class, 'index']);
 });
 
 Route::middleware([Authetication::class, CheckRole::class . ':' . RoleEnum::EMPLOYEE->value])->group(function () {
@@ -30,6 +30,7 @@ Route::middleware([Authetication::class, CheckRole::class . ':' . RoleEnum::EMPL
     Route::patch('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'delete']);
     Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/inventories', [InventaryController::class, 'index']);
 });
 
 Route::middleware([Authetication::class, CheckRole::class . ':' . RoleEnum::ADMIN->value])->group(function () {
@@ -39,3 +40,5 @@ Route::middleware([Authetication::class, CheckRole::class . ':' . RoleEnum::ADMI
     Route::resource('/roles', RoleController::class);
     Route::resource('/profiles', ProfileController::class);
 });
+
+Route::get('users',[SrcUserController::class, 'index']);

@@ -18,17 +18,9 @@ class CheckRole
     public function handle(Request $request, Closure $next, ?string $role = null): Response
     {
         $user = Auth::user();
-
-        if (!$user || !$user->profile || !$user->profile->role) {
-            return response()->json(['message' => 'No autorizado. No hay rol asignado.'], 403);
-        }
-
+        if (!$user || !$user->profile || !$user->profile->role) return response()->json(['message' => 'No autorizado. No hay rol asignado.'], 403);
         $userRole = $user->profile->role->name;
-        
-        if (!$this->checkRole($userRole, $role)) {
-            return response()->json(['message' => 'Permisos insuficientes'], 403);
-        }
-
+        if (!$this->checkRole($userRole, $role)) return response()->json(['message' => 'Permisos insuficientes'], 403);
         
         return $next($request);
     }

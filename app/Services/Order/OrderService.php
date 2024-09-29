@@ -1,26 +1,32 @@
-<?php 
+<?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Services\Order;
 
-use App\Models\Inventory;
 use App\Models\Order;
-use App\Models\Product;
+use App\Services\Product\ProductService;
+use App\Services\Inventory\InventoryService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class OrderService 
+class OrderService
 {
+    public function __construct(
+        private ProductService $productService, 
+        private InventoryService $inventoryService
+    ){
+    }
+
     public function createOrder(array $validatedData): Order
     {
         return DB::transaction(function () use ($validatedData) {
             $totalPrice = 0;
 
             foreach ($validatedData['products'] as $productData) {
-                $product = $this->getProduct($productData['id']);
-                $this->validateStock($product, $productData['quantity']);
+                $product = $this->productService->getProduct($productData['id']);
+                $this->inventoryService->validateStock($product, $productData['quantity']);
 
                 $price = $product->price * $productData['quantity'];
                 $totalPrice += $price;
@@ -35,40 +41,12 @@ class OrderService
             ]);
 
             foreach ($validatedData['products'] as $productData) {
-                $product = $this->getProduct($productData['id']);
-                $this->updateInventory($product, $productData['quantity']);
-                $this->attachProductOrder($order, $product, $productData);
+                $product = $this->productService->getProduct($productData['id']);
+                $this->inventoryService->updateInventory($product, $productData['quantity']);
+                $this->productService->attachProductOrder($order, $product, $productData);
             }
 
             return $order;
         });
-    }
-
-    private function getProduct($productId): Product
-    {
-        return Product::findOrFail($productId);
-    }
-
-    private function validateStock(Product $product, int $quantity): void
-    {
-        $inventory = Inventory::where('product_id', $product->id)->firstOrFail();
-        if ($inventory->stock < $quantity) {
-            throw new \Exception("No hay suficiente stock para el producto: {$product->name}");
-        }
-    }
-
-    private function updateInventory(Product $product, int $quantity): void
-    {
-        $inventory = Inventory::where('product_id', $product->id)->first();
-        $inventory->decrement('stock', $quantity);
-    }
-
-    private function attachProductOrder(Order $order, Product $product, array $productData): void
-    {
-        $order->products()->attach($product->id, [
-            'price_unit' => $product->price,
-            'quantity' => $productData['quantity'],
-            'subtotal' => $product->price * $productData['quantity']
-        ]);
     }
 }

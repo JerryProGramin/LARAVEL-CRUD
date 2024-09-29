@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
@@ -15,7 +16,7 @@ class Role extends Model
         'name',
         'description'
     ];
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->HasOne(Profile::class);
     }
