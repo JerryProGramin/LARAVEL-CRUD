@@ -15,9 +15,11 @@ class UserController extends Controller
     ){
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
         $users = $this->getUsers->execute();
         return new JsonResponse($users);
     }
+
+    
 }

@@ -13,4 +13,6 @@ class MySQLUserRepository implements UserRepositoryInterface
     {
         return User::select('id', 'email')->get()->toArray();
     }
+
+    
 }
