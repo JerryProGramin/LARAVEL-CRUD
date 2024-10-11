@@ -13,7 +13,7 @@ class ProductRequest
         public string $name,
         public string $description,
         public float $price,
-        public Category $category_id,
-        public Supplier $supplier_id
+        public Category $category,
+        public Supplier $supplier
     ){}
 }

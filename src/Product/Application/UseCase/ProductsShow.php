@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Src\Product\Application\UseCase;
 
 use Src\Category\Application\DTO\CategoryResponse;
-use Src\Category\Domain\Model\Category;
+use Src\Product\Application\DTO\ProductCategoryResponse;
 use Src\Product\Application\DTO\ProductResponse;
+use Src\Product\Application\DTO\ProductSupplierResponse;
 use Src\Product\Domain\Repository\ProductRepositoryInterface;
 use Src\Supplier\Application\DTO\SupplierResponse;
-use Src\Supplier\Domain\Model\Supplier;
 
 class ProductsShow
 {
@@ -27,19 +27,13 @@ class ProductsShow
                 name: $product->getName(),
                 description: $product->getDescription(),
                 price: $product->getPrice(),
-                category: new CategoryResponse(
-                    id: $product->getCategoryId()->getId(),
-                    name: $product->getCategoryId()->getName(),
-                    description: $product->getCategoryId()->getDescription()
+                category: new ProductCategoryResponse(
+                    id: $product->getCategory()->getId(),
+                    name: $product->getCategory()->getName()
                 ),
-                supplier: new SupplierResponse(
-                    id: $product->getSupplierId()->getId(),
-                    name: $product->getSupplierId()->getName(),
-                    contactInfo: $product->getSupplierId()->getContactInfo(),
-                    phone: $product->getSupplierId()->getPhone(),
-                    email: $product->getSupplierId()->getEmail(),
-                    address: $product->getSupplierId()->getAddress(),
-                    country: $product->getSupplierId()->getCountry()
+                supplier: new ProductSupplierResponse(
+                    id: $product->getSupplier()->getId(),
+                    name: $product->getSupplier()->getName()
                 ),
             );
         }, $productsShow);

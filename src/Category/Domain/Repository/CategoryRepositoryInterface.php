@@ -10,7 +10,7 @@ interface CategoryRepositoryInterface
 {
     public function getAll(): array;
     public function getShow(int $id): ?Category;
-    // public function store(string $name, string $description): Category;
-    // public function update(int $id, string $name, string $description): Category;
-    // public function delete(int $id): void;
+    public function store(string $name, string $description): ?Category;
+    public function update(int $id, string $name, string $description): ?Category;
+    public function delete(int $id): void;
 }

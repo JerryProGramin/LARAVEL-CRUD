@@ -14,14 +14,14 @@ class Product
         private string $name,
         private string $description,
         private float $price,
-        private Category $category_id,
-        private Supplier $supplier_id
+        private ?Category $category = null,
+        private ?Supplier $supplier = null
     ){}
 
     public function getId(): int { return $this->id;}
     public function getName(): string { return $this->name;}
     public function getDescription(): string { return $this->description;}
     public function getPrice(): float { return $this->price;}
-    public function getCategoryId(): Category { return $this->category_id;}
-    public function getSupplierId(): Supplier { return $this->supplier_id;}
+    public function getCategory(): ?Category { return $this->category;}
+    public function getSupplier(): ?Supplier { return $this->supplier;}
 }

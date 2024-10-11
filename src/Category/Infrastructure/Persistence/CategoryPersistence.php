@@ -37,5 +37,43 @@ class CategoryPersistence implements CategoryRepositoryInterface
             $category->description
         );
     }
+
+    public function store(string $name, string $description): Category
+    {
+        $category = new AppCategory();
+        $category->name = $name;
+        $category->description = $description;
+        $category->save();
+        
+        return new Category(
+            $category->id,
+            $category->name,
+            $category->description
+        );
+    }
+
+    public function update(int $id, string $name, string $description): Category
+    {
+        $category = AppCategory::find($id);
+        
+        if (!$category) {
+            throw new \Exception("Category not found.");
+        }
+        
+        $category->name = $name;
+        $category->description = $description;
+        $category->save();
+        
+        return new Category(
+            $category->id,
+            $category->name,
+            $category->description
+        );
+    }
+    
+    public function delete(int $id): void
+    {
+        AppCategory::destroy($id);
+    }
     
 }

@@ -45,4 +45,57 @@ class SupplierPersistence implements SupplierRepositoryInterface
             country: $supplier->country
         );
     }
+
+    public function store(string $name, string $contactInfo, string $phone, string $email, string $address, string $country): ?Supplier
+    {
+        $supplier = new AppSupplier();
+        $supplier->name = $name;
+        $supplier->contact_info = $contactInfo;
+        $supplier->phone = $phone;
+        $supplier->email = $email;
+        $supplier->address = $address;
+        $supplier->country = $country;
+        $supplier->save();
+
+        return new Supplier(
+            id: $supplier->id,
+            name: $supplier->name,
+            contact_info: $supplier->contact_info,
+            phone: $supplier->phone,
+            email: $supplier->email,
+            address: $supplier->address,
+            country: $supplier->country
+        );
+    }
+
+    public function update(int $id, string $name, string $contactInfo, string $phone, string $email, string $address, string $country): Supplier
+    {
+        $supplier = AppSupplier::find($id);
+
+        if (!$supplier) {
+            throw new \Exception("Supplier not found.");
+        }
+        $supplier->name = $name;
+        $supplier->contact_info = $contactInfo;
+        $supplier->phone = $phone;
+        $supplier->email = $email;
+        $supplier->address = $address;
+        $supplier->country = $country;
+        $supplier->save();
+
+        return new Supplier(
+            id: $supplier->id,
+            name: $supplier->name,
+            contact_info: $supplier->contact_info,
+            phone: $supplier->phone,
+            email: $supplier->email,
+            address: $supplier->address,
+            country: $supplier->country
+        );
+    }
+
+    public function delete(int $id): void
+    {
+        AppSupplier::destroy($id);
+    }
 }

@@ -15,8 +15,7 @@ class CategoryUpdate
 
     public function execute(int $id, StoreCategoryRequest $request): void
     {
-        $category = $this->categoryRepository->getShow($id);
-        $this->$category->update($id, $request->name, $request->description);
+        $this->categoryRepository->update($id, $request->name, $request->description);
     }
     
 }

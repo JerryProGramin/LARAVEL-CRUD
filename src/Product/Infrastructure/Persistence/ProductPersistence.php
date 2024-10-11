@@ -25,16 +25,10 @@ class ProductPersistence implements ProductRepositoryInterface
                 new Category(
                     $product->category->id,
                     $product->category->name,
-                    $product->category->description,
                 ),
                 new Supplier(
                     $product->supplier->id,
                     $product->supplier->name,
-                    $product->supplier->contact_info,
-                    $product->supplier->phone,
-                    $product->supplier->email,
-                    $product->supplier->address,
-                    $product->supplier->country,
                 ),
             );
         })->toArray();
@@ -56,16 +50,10 @@ class ProductPersistence implements ProductRepositoryInterface
             new Category(
                 $product->category->id,
                 $product->category->name,
-                $product->category->description,
             ),
             new Supplier(
                 $product->supplier->id,
                 $product->supplier->name,
-                $product->supplier->contact_info,
-                $product->supplier->phone,
-                $product->supplier->email,
-                $product->supplier->address,
-                $product->supplier->country,
             ),
         );
     }

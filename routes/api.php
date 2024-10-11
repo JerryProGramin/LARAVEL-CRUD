@@ -18,6 +18,10 @@ use Src\User\Infrastructure\Controller\UserController as SrcUserController;
 use Src\Category\Infrastructure\Controller\CategoryController as SrcCategoryController;
 use Src\Supplier\Infrastructure\Controller\SupplierController as SrcSupplierController;
 use Src\Product\Infrastructure\Controller\ProductController as SrcProductController;
+use Src\Inventory\Infrastructure\Controller\InventoryController as SrcInventoryController;
+use Src\OrderProduct\Infrastructure\Controller\OrderProductController as SrcOrderProductController;
+use Src\Order\Infrastructure\Controller\OrderController as SrcOrderController;
+
 //use App\Http\Middleware\StockMiddleware;
 
 Route::post('login', [AutheticationController::class, 'login'])->withoutMiddleware(Authetication::class);
@@ -56,6 +60,9 @@ Route::group([
 ], static function () {
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
+    Route::post('/', 'store');
+    Route::patch('/{id}', 'update');
+    Route::delete('/{id}', 'delete');
 });
 
 Route::group([
@@ -64,6 +71,9 @@ Route::group([
 ], static function () {
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
+    Route::post('/', 'store');
+    Route::patch('/{id}', 'update');
+    Route::delete('/{id}', 'delete');
 });
 
 Route::group([
@@ -73,3 +83,27 @@ Route::group([
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
 });
+
+Route::group([
+    'prefix' => 'inventories',
+    'controller' => SrcInventoryController::class,
+], static function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+});
+
+Route::group([
+    'prefix' => 'orders',
+    'controller' => SrcOrderController::class,
+], static function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+});
+
+// Route::group([
+//     'prefix' => 'order_products',
+//     'controller' => SrcOrderProductController::class,
+// ], static function () {
+//     Route::get('/', 'index');
+//     Route::get('/{id}', 'show');
+// });

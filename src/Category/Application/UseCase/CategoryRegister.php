@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Src\Category\Application\UseCase;
 
 use App\Http\Requests\Category\StoreCategoryRequest;
-use Src\Category\Domain\Model\CategoryRepositoryInterface;
+use Src\Category\Domain\Repository\CategoryRepositoryInterface;
 
 class CategoryRegister 
 {

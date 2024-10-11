@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Category\Application\UseCase;
 
-use Src\Category\Domain\Model\CategoryRepositoryInterface;
+use Src\Category\Domain\Repository\CategoryRepositoryInterface;
 
 class CategoryDelete 
 {
