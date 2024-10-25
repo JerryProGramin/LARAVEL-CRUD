@@ -5,6 +5,8 @@ use App\Http\Controllers\AutheticationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\InventaryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -22,7 +24,6 @@ use Src\Inventory\Infrastructure\Controller\InventoryController as SrcInventoryC
 use Src\OrderProduct\Infrastructure\Controller\OrderProductController as SrcOrderProductController;
 use Src\Order\Infrastructure\Controller\OrderController as SrcOrderController;
 
-//use App\Http\Middleware\StockMiddleware;
 
 Route::post('login', [AutheticationController::class, 'login'])->withoutMiddleware(Authetication::class);
 
@@ -47,6 +48,7 @@ Route::post('login', [AutheticationController::class, 'login'])->withoutMiddlewa
 //     Route::resource('/roles', RoleController::class);
 //     Route::resource('/profiles', ProfileController::class);
 // });
+
 Route::group([
     'prefix' => 'users',
     'controller' => SrcUserController::class,
@@ -82,6 +84,9 @@ Route::group([
 ], static function () {
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
+    Route::post('/', 'store');
+    Route::patch('/{id}', 'update');
+    Route::delete('/{id}', 'delete');
 });
 
 Route::group([
@@ -98,12 +103,34 @@ Route::group([
 ], static function () {
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
+    Route::post('/', 'store');
 });
 
-// Route::group([
-//     'prefix' => 'order_products',
-//     'controller' => SrcOrderProductController::class,
-// ], static function () {
-//     Route::get('/', 'index');
-//     Route::get('/{id}', 'show');
-// });
+Route::group([
+    'prefix' => 'order_products',
+    'controller' => SrcOrderProductController::class,
+], static function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+});
+
+Route::group([
+    'prefix' => 'images',
+    'controller' => ImageController::class,
+], function () {
+    Route::post('/users/{user}', 'saveUser');
+    Route::get('/users/{user}', 'getUser');
+    Route::post('/users/{user}/base64', 'saveBase64User');
+
+    Route::post('/products/{product}', 'saveProduct');
+    Route::get('/products/{product}', 'getProduct');
+    Route::post('/products/{product}/base64', 'saveBase64Product');
+});
+
+Route::group([
+    'prefix' => 'clients',
+    'controller' => ClientController::class,
+], function () {
+    Route::post('/individual', 'storeIndividual');
+    Route::post('/company', 'storeCompany');
+});

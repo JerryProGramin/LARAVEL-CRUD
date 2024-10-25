@@ -4,13 +4,13 @@ declare(strict_types = 1);
 
 namespace Src\Inventory\Application\UseCase;
 
-use Src\Category\Application\DTO\CategoryResponse;
 use Src\Inventory\Application\DTO\InventoryResponse;
 use Src\Inventory\Domain\Repository\InventoryRepositoryInterface;
 use Src\Product\Application\DTO\ProductResponse;
-use Src\Supplier\Application\DTO\SupplierResponse;
+use Src\Shared\Application\DTO\CategoryResponse as SharedCategoryResponse;
+use Src\Shared\Application\DTO\SupplierResponse as SharedSupplierResponse;
 
-class InventoriesShow
+class GetInventories
 {
     public function __construct(
         private InventoryRepositoryInterface $inventoryRepository
@@ -28,11 +28,11 @@ class InventoriesShow
                     name: $inventories->getProduct()->getName(),
                     description: $inventories->getProduct()->getDescription(),
                     price: $inventories->getProduct()->getPrice(),
-                    category: new CategoryResponse(
+                    category: new SharedCategoryResponse(
                         id: $inventories->getProduct()->getCategory()->getId(),
                         name: $inventories->getProduct()->getCategory()->getName()
                     ),
-                    supplier: new SupplierResponse(
+                    supplier: new SharedSupplierResponse(
                         id: $inventories->getProduct()->getSupplier()->getId(),
                         name: $inventories->getProduct()->getSupplier()->getName()
                     ),

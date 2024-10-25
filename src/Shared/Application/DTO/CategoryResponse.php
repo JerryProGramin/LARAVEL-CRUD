@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Src\Product\Application\DTO;
+namespace Src\Shared\Application\DTO;
 
-class ProductCategoryResponse
+class CategoryResponse
 {
     public function __construct(
         public int $id,

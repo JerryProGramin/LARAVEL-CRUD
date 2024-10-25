@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Src\Inventory\Application\UseCase;
 
-use Src\Category\Application\DTO\CategoryResponse;
 use Src\Inventory\Application\DTO\InventoryResponse;
 use Src\Inventory\Domain\Repository\InventoryRepositoryInterface;
 use Src\Product\Application\DTO\ProductResponse;
-use Src\Supplier\Application\DTO\SupplierResponse;
+use Src\Shared\Application\DTO\CategoryResponse as SharedCategoryResponse;
+use Src\Shared\Application\DTO\SupplierResponse as SharedSupplierResponse;
 
 class InventoryShow
 {
@@ -26,11 +26,11 @@ class InventoryShow
                 name: $inventory->getProduct()->getName(),
                 description: $inventory->getProduct()->getDescription(),
                 price: $inventory->getProduct()->getPrice(),
-                category: new CategoryResponse(
+                category: new SharedCategoryResponse(
                     id: $inventory->getProduct()->getCategory()->getId(),
                     name: $inventory->getProduct()->getCategory()->getName()
                 ),
-                supplier: new SupplierResponse(
+                supplier: new SharedSupplierResponse(
                     id: $inventory->getProduct()->getSupplier()->getId(),
                     name: $inventory->getProduct()->getSupplier()->getName()
                 ),

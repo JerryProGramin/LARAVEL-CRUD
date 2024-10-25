@@ -57,4 +57,50 @@ class ProductPersistence implements ProductRepositoryInterface
             ),
         );
     }
+
+    public function store(string $name, string $description, float $price, int $categoryId, int $supplierId): Product
+    {
+        $appProduct = new AppProduct();
+        $appProduct->name = $name;
+        $appProduct->description = $description;
+        $appProduct->price = $price;
+        $appProduct->category_id = $categoryId;
+        $appProduct->supplier_id = $supplierId;
+        $appProduct->save();
+        return new Product(
+            $appProduct->id,
+            $appProduct->name,
+            $appProduct->description,
+            (float) $appProduct->price,
+            $appProduct->categoryId,
+            $appProduct->supplierId,
+        );
+    }
+
+    public function update(int $id, string $name, string $description, float $price, int $categoryId, int $supplierId): Product
+    {
+        $product = AppProduct::find($id);
+        if (!$product) {
+            throw new \Exception("Product not found.");
+        }
+        $product->name = $name;
+        $product->description = $description;
+        $product->price = $price;
+        $product->category_id = $categoryId;
+        $product->supplier_id = $supplierId;
+        $product->save();
+        return new Product(
+            $product->id,
+            $product->name,
+            $product->description,
+            (float) $product->price,
+            $product->categoryId,
+            $product->supplierId,
+        );
+    }
+    
+    public function delete(int $id): void
+    {
+        AppProduct::destroy($id);
+    }
 }

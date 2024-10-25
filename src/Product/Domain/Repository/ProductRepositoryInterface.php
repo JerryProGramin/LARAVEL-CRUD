@@ -10,7 +10,7 @@ interface ProductRepositoryInterface
 {
     public function getAll(): array;
     public function getShow(int $id): Product;
-    // public function store($data): Product;
-    // public function update($id, $data): Product;
-    // public function delete($id): void;
+    public function store(string $name, string $description, float $price, int $categoryId, int $supplierId): Product;
+    public function update(int $id,string $name, string $description, float $price, int $categoryId, int $supplierId): Product;
+    public function delete(int $id): void;
 }

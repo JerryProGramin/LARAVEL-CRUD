@@ -6,13 +6,13 @@ namespace Src\Inventory\Infrastructure\Controller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Src\Inventory\Application\UseCase\InventoriesShow;
+use Src\Inventory\Application\UseCase\GetInventories;
 use Src\Inventory\Application\UseCase\InventoryShow;
 
 class InventoryController extends Controller
 {
     public function __construct(
-        private InventoriesShow $inventoriesShow,
+        private GetInventories $getInventories,
         private InventoryShow $inventoryShow,
         // private InventoryUpdate $inventoryUpdate,
         // private InventoryDelete $inventoryDelete,
@@ -21,7 +21,7 @@ class InventoryController extends Controller
 
     public function index(): JsonResponse
     {
-        $inventories = $this->inventoriesShow->execute();
+        $inventories = $this->getInventories->execute();
         return new JsonResponse($inventories);
     }
 

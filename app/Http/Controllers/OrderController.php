@@ -5,16 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\CustomerOrderRequest;
 use App\Http\Resources\OrderResource;
-use App\Models\Inventory;
 use App\Models\Order;
-use App\Models\Product;
 use App\Services\Order\OrderService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {

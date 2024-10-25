@@ -4,48 +4,47 @@ declare(strict_types=1);
 
 namespace Src\Order\Domain\Service;
 
-use App\Models\Order;
-use App\Services\Product\ProductService;
-use App\Services\Inventory\InventoryService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Src\Order\Domain\Model\NewOrder;
 
 class OrderService
 {
+
     public function __construct(
-        private ProductService $productService,
+        private ProductOrderingService $productService,
         private InventoryService $inventoryService
-    ) {}
+    ) {
+    }
 
-    public function createOrder(array $validatedData): Order
+    public function createOrder(array $validatedData): NewOrder
     {
-        return DB::transaction(function () use ($validatedData) {
-            $totalPrice = 0;
+        $totalPrice = 0;
+        $order = new NewOrder(
+            id: 0,
+            user: $validatedData['user'],
+            date: new \DateTime(),
+            paymentMethod: $validatedData['payment_method'],
+            total: 0,
+            orderNumber: $this->generateOrderNumber()
+        );
 
-            foreach ($validatedData['products'] as $productData) {
-                $product = $this->productService->getProduct($productData['id']);
-                $this->inventoryService->validateStock($product, $productData['quantity']);
+        foreach ($validatedData['products'] as $productData) {
+            $product = $this->productService->getProduct($productData['id']);
+            $this->inventoryService->validateStock($product, $productData['quantity']);
 
-                $price = $product->price * $productData['quantity'];
-                $totalPrice += $price;
-            }
+            $price = $product->getPrice() * $productData['quantity'];
+            $totalPrice += $price;
 
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'date' => now(),
-                'payment_method_id' => $validatedData['payment_method_id'],
-                'total' => $totalPrice,
-                'order_number' => Str::random(10),
-            ]);
+            $this->productService->attachProductOrder($order, $product, $productData);
+            $this->inventoryService->updateInventory($product, $productData['quantity']);
+        }
 
-            foreach ($validatedData['products'] as $productData) {
-                $product = $this->productService->getProduct($productData['id']);
-                $this->inventoryService->updateInventory($product, $productData['quantity']);
-                $this->productService->attachProductOrder($order, $product, $productData);
-            }
+        $order->setTotal($totalPrice);
 
-            return $order;
-        });
+        return $order;
+    }
+
+    private function generateOrderNumber(): string
+    {
+        return strtoupper(bin2hex(random_bytes(5)));
     }
 }

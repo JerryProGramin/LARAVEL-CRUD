@@ -4,12 +4,10 @@ declare(strict_types = 1);
 
 namespace Src\Product\Application\UseCase;
 
-use Src\Category\Application\DTO\CategoryResponse;
-use Src\Product\Application\DTO\ProductCategoryResponse;
 use Src\Product\Application\DTO\ProductResponse;
-use Src\Product\Application\DTO\ProductSupplierResponse;
 use Src\Product\Domain\Repository\ProductRepositoryInterface;
-use Src\Supplier\Application\DTO\SupplierResponse;
+use Src\Shared\Application\DTO\CategoryResponse as SharedCategoryResponse;
+use Src\Shared\Application\DTO\SupplierResponse as SharedSupplierResponse;
 
 class ProductShow
 {
@@ -24,11 +22,11 @@ class ProductShow
             name: $produtc->getName(),
             description: $produtc->getDescription(),
             price: $produtc->getPrice(),
-            category: new ProductCategoryResponse(
+            category: new SharedCategoryResponse(
                 id: $produtc->getCategory()->getId(),
                 name: $produtc->getCategory()->getName()
             ),
-            supplier: new ProductSupplierResponse(
+            supplier: new SharedSupplierResponse(
                 id: $produtc->getSupplier()->getId(),
                 name: $produtc->getSupplier()->getName()
             ),
